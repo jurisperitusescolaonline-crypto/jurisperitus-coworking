@@ -1,60 +1,61 @@
 #!/usr/bin/env python3
 """
 DEPLOY AUTÔNOMO — CLAUDE COWORKING JURISPERITUS
-Mecanismo: git push → GitHub → Netlify CI/CD deploy automático
+Mecanismo: git push → GitHub Pages (direto, sem serviço externo)
 """
 
-import os, subprocess, datetime, sys
+import os, subprocess, datetime, sys, shutil
 
-BASE      = "/home/claude/jurisperitus"
-GH_USER   = "jurisperitusescolaonline-crypto"
-GH_TOKEN  = "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"
-REPO      = "jurisperitus-coworking"
-REMOTE    = f"https://{GH_USER}:{GH_TOKEN}@github.com/{GH_USER}/{REPO}.git"
-LOG_DIR   = f"{BASE}/relatorios"
+BASE     = "/home/claude/jurisperitus"
+GH_USER  = "jurisperitusescolaonline-crypto"
+GH_TOKEN = "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"
+REPO     = "jurisperitus-coworking"
+REMOTE   = f"https://{GH_USER}:{GH_TOKEN}@github.com/{GH_USER}/{REPO}.git"
+LOG_DIR  = f"{BASE}/relatorios"
 os.makedirs(LOG_DIR, exist_ok=True)
 
 def run(cmd, cwd=BASE):
     r = subprocess.run(cmd, capture_output=True, text=True, cwd=cwd)
     return r.returncode == 0, r.stdout.strip(), r.stderr.strip()
 
+def sincronizar_docs():
+    """Copia arquivos atualizados para docs/ antes do push."""
+    src = f"{BASE}/OS-ativas/netlify-deploy/index.html"
+    dst = f"{BASE}/docs/index.html"
+    if os.path.exists(src):
+        shutil.copy2(src, dst)
+
 def deploy(mensagem: str = None):
     ts  = datetime.datetime.now().strftime("%d/%m/%Y %H:%M")
-    msg = mensagem or f"deploy: atualização automática Claude Coworking — {ts}"
+    msg = mensagem or f"deploy: atualização automática — {ts}"
 
     print(f"\n🚀 DEPLOY AUTÔNOMO — {ts}")
     print("=" * 55)
 
-    # 1. Garantir remote com token
-    ok, _, _ = run(["git", "remote", "set-url", "origin", REMOTE])
+    sincronizar_docs()
+    run(["git", "remote", "set-url", "origin", REMOTE])
 
-    # 2. Stage tudo
-    ok, out, err = run(["git", "add", "-A"])
-    print(f"  stage:  {'✅' if ok else '❌'} {out or err or 'ok'}")
+    ok, _, _ = run(["git", "add", "-A"])
+    print(f"  stage:  ✅")
 
-    # 3. Verificar se há algo para commitar
-    ok2, status, _ = run(["git", "status", "--porcelain"])
+    _, status, _ = run(["git", "status", "--porcelain"])
     if not status:
-        print("  commit: ⏭️  nada a commitar — já está atualizado")
+        print("  commit: ⏭️  já atualizado")
     else:
         ok, out, err = run(["git", "commit", "-m", msg])
-        print(f"  commit: {'✅' if ok else '❌'} {out.splitlines()[-1] if out else err}")
+        linha = out.splitlines()[-1] if out else err
+        print(f"  commit: {'✅' if ok else '❌'} {linha}")
 
-    # 4. Push
     ok, out, err = run(["git", "push", "origin", "main"])
-    resultado = "✅ Push OK — Netlify deployando" if ok else f"❌ Erro: {err}"
-    print(f"  push:   {resultado}")
+    print(f"  push:   {'✅ Enviado para GitHub' if ok else '❌ ' + err}")
 
-    # 5. Log
     log = f"{LOG_DIR}/deploy_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
     with open(log, "w") as f:
         f.write(f"Data: {ts}\nMensagem: {msg}\nStatus: {'OK' if ok else 'ERRO'}\n{out}\n{err}")
 
-    print(f"\n  Log: {log}")
+    print(f"\n  Log:  {log}")
+    print(f"  URL:  https://jurisperitus.com.br")
     print("=" * 55)
-    if ok:
-        print("  ✅ Netlify irá deployar em ~30 segundos")
-        print("  🌐 https://jurisperitus.com.br")
     return ok
 
 if __name__ == "__main__":
