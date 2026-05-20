@@ -1,12 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url=https://COLE_AQUI_URL_NETLIFY_TUTOR">
-  <title>Redirecionando...</title>
-  <script>window.location.replace("https://COLE_AQUI_URL_NETLIFY_TUTOR");</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutor de Português Jurídico — Jurisperitus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --azul:#003B83;--azul-dark:#002660;--azul-mid:#1a5aa8;
+  --ouro:#FFB400;--ouro-light:#ffc93c;
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;
+  --border:#30363d;--texto:#e6edf3;--texto-sec:#8b949e;--texto-ter:#6e7681;
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;
+}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--sans);background:var(--bg);color:var(--texto);display:flex;flex-direction:column}
+nav{background:rgba(13,17,23,0.97);border-bottom:1px solid var(--border);padding:0 20px;flex-shrink:0}
+.nav-inner{max-width:860px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:56px}
+.nav-logo{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--texto);text-decoration:none}
+.nav-logo span{color:var(--ouro)}
+.nav-badge{font-size:11px;background:rgba(255,180,0,0.12);color:var(--ouro);border:1px solid rgba(255,180,0,0.25);padding:3px 10px;border-radius:20px}
+.nav-link{font-size:12px;color:var(--texto-sec);text-decoration:none;transition:color 0.2s}
+.nav-link:hover{color:var(--ouro)}
+.app{flex:1;display:flex;flex-direction:column;max-width:860px;margin:0 auto;width:100%;overflow:hidden;padding:0 16px}
+.messages{flex:1;overflow-y:auto;padding:20px 0;display:flex;flex-direction:column;gap:16px;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.messages::-webkit-scrollbar{width:4px}
+.messages::-webkit-scrollbar-thumb{background:var(--border)}
+.msg{display:flex;gap:12px;animation:fadeIn 0.3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg-avatar{width:32px;height:32px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.msg-avatar.tutor{background:var(--azul);color:var(--ouro);font-family:var(--serif);font-weight:700;font-size:11px}
+.msg-avatar.user{background:var(--bg3);color:var(--texto-sec);font-size:14px}
+.msg-body{flex:1;min-width:0}
+.msg-nome{font-size:11px;font-weight:500;margin-bottom:5px;letter-spacing:0.03em}
+.msg-nome.tutor{color:var(--ouro)}
+.msg-nome.user{color:var(--texto-sec)}
+.msg-texto{font-size:14px;line-height:1.8;color:var(--texto);background:var(--bg2);border:1px solid var(--border);border-radius:0 10px 10px 10px;padding:13px 16px}
+.msg.user .msg-texto{background:rgba(0,59,131,0.18);border-color:rgba(0,59,131,0.35);border-radius:10px 0 10px 10px}
+.msg-texto strong{color:var(--ouro);font-weight:500}
+.msg-texto em{color:var(--ouro-light);font-style:italic}
+.msg-texto code{font-family:monospace;font-size:13px;background:var(--bg3);border:1px solid var(--border);padding:1px 6px;border-radius:4px;color:#79c0ff}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--texto-sec);margin:0 2px;animation:bounce 1.2s infinite}
+.dot:nth-child(2){animation-delay:0.2s}.dot:nth-child(3){animation-delay:0.4s}
+@keyframes bounce{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+.sugestoes{display:flex;flex-wrap:wrap;gap:8px;padding:8px 0 14px;flex-shrink:0}
+.sug{font-size:12px;color:var(--texto-sec);background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:6px 14px;cursor:pointer;transition:all 0.2s}
+.sug:hover{border-color:var(--ouro);color:var(--ouro)}
+.input-area{border-top:1px solid var(--border);padding:14px 0 18px;flex-shrink:0}
+.input-box{display:flex;gap:10px;align-items:flex-end;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;transition:border-color 0.2s}
+.input-box:focus-within{border-color:var(--azul-mid)}
+textarea{flex:1;background:none;border:none;outline:none;resize:none;font-family:var(--sans);font-size:14px;color:var(--texto);line-height:1.5;max-height:120px;min-height:22px}
+textarea::placeholder{color:var(--texto-ter)}
+.btn-send{width:34px;height:34px;border-radius:8px;border:none;background:var(--azul);color:var(--ouro);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.2s}
+.btn-send:hover:not(:disabled){background:var(--azul-mid)}
+.btn-send:disabled{opacity:0.4;cursor:not-allowed}
+.hint{font-size:11px;color:var(--texto-ter);margin-top:8px;text-align:center}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(4px)}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:32px;max-width:440px;width:90%}
+.modal h2{font-family:var(--serif);font-size:24px;color:var(--texto);margin-bottom:8px}
+.modal p{font-size:13px;color:var(--texto-sec);line-height:1.6;margin-bottom:20px}
+.modal input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-family:var(--sans);font-size:14px;color:var(--texto);outline:none;margin-bottom:12px}
+.modal input:focus{border-color:var(--azul-mid)}
+.btn-modal{width:100%;background:var(--ouro);color:var(--azul-dark);border:none;border-radius:8px;padding:13px;font-family:var(--sans);font-size:14px;font-weight:500;cursor:pointer}
+.btn-modal:hover{background:var(--ouro-light)}
+.modal-skip{font-size:12px;color:var(--texto-ter);text-align:center;margin-top:12px;cursor:pointer;text-decoration:underline}
+</style>
 </head>
 <body>
-  <p>Redirecionando para o Tutor...</p>
+<nav>
+  <div class="nav-inner">
+    <a href="https://jurisperitus.com.br" class="nav-logo">Juris<span>peritus</span></a>
+    <div style="display:flex;align-items:center;gap:14px">
+      <span class="nav-badge">Tutor de Português</span>
+      <a href="/diagnostico" class="nav-link">Diagnóstico →</a>
+    </div>
+  </div>
+</nav>
+
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <h2>Tutor de Português Jurídico</h2>
+    <p>Para usar o tutor, insira sua chave de API da Anthropic (começa com <code style="color:#79c0ff;background:#21262d;padding:1px 5px;border-radius:3px">sk-ant-</code>). Ela é salva apenas no seu navegador.</p>
+    <input type="password" id="api-input" placeholder="sk-ant-..." autocomplete="off">
+    <button class="btn-modal" onclick="salvarChave()">Iniciar o tutor →</button>
+    <p class="modal-skip" onclick="fecharModal()">Já configurei anteriormente</p>
+  </div>
+</div>
+
+<div class="app">
+  <div class="messages" id="messages"></div>
+  <div class="sugestoes" id="sugs">
+    <button class="sug" onclick="perguntar(this.textContent)">O que é crase?</button>
+    <button class="sug" onclick="perguntar(this.textContent)">Quando usar "por que" ou "porque"?</button>
+    <button class="sug" onclick="perguntar(this.textContent)">Regência verbal no Direito</button>
+    <button class="sug" onclick="perguntar(this.textContent)">Concordância com "haviam"</button>
+    <button class="sug" onclick="perguntar(this.textContent)">O que significa "réu"?</button>
+    <button class="sug" onclick="perguntar(this.textContent)">Colocação pronominal em petições</button>
+  </div>
+  <div class="input-area">
+    <div class="input-box">
+      <textarea id="inp" placeholder="Pergunte sobre gramática, linguagem jurídica, ortografia..." rows="1"
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();enviar()}"
+        oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'"></textarea>
+      <button class="btn-send" id="btn" onclick="enviar()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+    <p class="hint">Shift+Enter para nova linha · Responde sobre gramática e português jurídico</p>
+  </div>
+</div>
+
+<script>
+const SYS = `Você é o Tutor de Português Jurídico da Jurisperitus Escola Online, criado pelo Prof. Dr. Freire — professor de Letras e bacharel em Direito. Responda EXCLUSIVAMENTE dúvidas sobre gramática portuguesa, linguagem jurídica, redação jurídica, ortografia, concordância, regência, crase, pontuação e vocabulário do Direito. Para outras perguntas, redirecione ao tema. Seja didático, use exemplos jurídicos, use negrito para termos importantes. Responda em português brasileiro.`;
+let key = localStorage.getItem('jp_key')||'', busy = false;
+function init(){if(key){document.getElementById('modal').style.display='none';bv()}}
+function salvarChave(){const v=document.getElementById('api-input').value.trim();if(!v.startsWith('sk-')){document.getElementById('api-input').style.borderColor='#f85149';return;}key=v;localStorage.setItem('jp_key',v);document.getElementById('modal').style.display='none';bv()}
+function fecharModal(){key=localStorage.getItem('jp_key')||'';document.getElementById('modal').style.display='none';if(!key){msg('tutor','Nenhuma chave configurada. Recarregue para inserir sua chave de API.');return;}bv()}
+function bv(){msg('tutor','Olá! Sou o **Tutor de Português Jurídico** da Jurisperitus.\n\nEstou aqui para responder todas as suas dúvidas sobre gramática, ortografia, concordância, crase, regência e linguagem jurídica. Pode perguntar à vontade — não existe dúvida pequena!\n\nO que você gostaria de aprender hoje?')}
+function msg(tipo,txt){
+  const m=document.getElementById('messages'),d=document.createElement('div');
+  d.className='msg '+tipo;
+  d.innerHTML=`<div class="msg-avatar ${tipo}">${tipo==='tutor'?'JP':'👤'}</div><div class="msg-body"><div class="msg-nome ${tipo}">${tipo==='tutor'?'Tutor Jurisperitus':'Você'}</div><div class="msg-texto">${fmt(txt)}</div></div>`;
+  m.appendChild(d);m.scrollTop=m.scrollHeight;return d;
+}
+function fmt(t){return t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/`(.+?)`/g,'<code>$1</code>').replace(/\n/g,'<br>')}
+function typing(){const m=document.getElementById('messages'),d=document.createElement('div');d.className='msg tutor';d.id='tp';d.innerHTML='<div class="msg-avatar tutor">JP</div><div class="msg-body"><div class="msg-nome tutor">Tutor Jurisperitus</div><div class="msg-texto"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div></div>';m.appendChild(d);m.scrollTop=m.scrollHeight}
+function rmTyping(){const t=document.getElementById('tp');if(t)t.remove()}
+function perguntar(t){document.getElementById('inp').value=t;enviar()}
+async function enviar(){
+  if(busy)return;
+  const inp=document.getElementById('inp'),t=inp.value.trim();
+  if(!t)return;if(!key){document.getElementById('modal').style.display='flex';return;}
+  inp.value='';inp.style.height='auto';
+  document.getElementById('sugs').style.display='none';
+  msg('user',t);busy=true;document.getElementById('btn').disabled=true;typing();
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1024,system:SYS,messages:[{role:'user',content:t}]})});
+    const d=await r.json();rmTyping();
+    if(d.error)msg('tutor','Erro: '+d.error.message);
+    else msg('tutor',d.content[0].text);
+  }catch(e){rmTyping();msg('tutor','Não foi possível conectar. Verifique sua chave de API.')}
+  busy=false;document.getElementById('btn').disabled=false;document.getElementById('inp').focus();
+}
+init();
+</script>
 </body>
 </html>
