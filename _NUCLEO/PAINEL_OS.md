@@ -75,3 +75,15 @@
 ---
 
 *Para abrir nova OS, informar ao Claude: número, descrição, escopo e prazo.*
+
+---
+
+## OS-07 | Infraestrutura jurisperitus.com.br ✅ CONCLUÍDA
+
+**Entregas realizadas:**
+- DNS migrado Registro.br → Hostinger → GitHub Pages
+- Landing page de captura estática deployada
+- Repositório GitHub criado e conectado (deploy autônomo)
+- /tutor: professor de português com IA (Anthropic API)
+- /diagnostico: quiz 10 questões com diagnóstico automático de nível
+- Pipeline git push → GitHub Pages operacional
