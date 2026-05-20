@@ -1,0 +1,34 @@
+# .htaccess — jurisperitus.com.br
+# Claude Coworking | Jurisperitus | Maio de 2026
+# ─────────────────────────────────────────────────────────────
+# INSTRUÇÕES DE USO:
+# 1. Acessar hPanel → Gerenciador de Arquivos → public_html/
+# 2. Localizar o arquivo .htaccess (se não existir, criar novo)
+# 3. Colar este conteúdo (ou mesclar com o existente)
+# 4. Salvar
+# ─────────────────────────────────────────────────────────────
+
+Options -Indexes
+RewriteEngine On
+
+# ── /diagnostico → redireciona para o formulário externo ─────
+# SUBSTITUIR a URL abaixo pela URL real do seu formulário
+# Exemplos:
+#   Typeform:     https://professorfreire.typeform.com/to/XXXX
+#   Google Forms: https://forms.gle/XXXXXXXXXX
+#   Jotform:      https://form.jotform.com/XXXXXXXXXX
+
+RewriteRule ^diagnostico/?$ https://COLE_AQUI_A_URL_DO_FORMULARIO [R=301,L]
+
+# ── /tutor → página interna (WordPress) ──────────────────────
+# Se o WordPress estiver instalado, esta rota será recriada
+# automaticamente ao criar/restaurar a página "tutor" no WP.
+# Se o site for HTML puro, criar a pasta e arquivo abaixo:
+#   public_html/tutor/index.html
+
+# ── Regras padrão WordPress (manter sempre) ──────────────────
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]

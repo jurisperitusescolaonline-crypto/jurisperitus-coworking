@@ -1,0 +1,16 @@
+# _redirects — jurisperitus.com.br (Netlify)
+# Projeto: jurisperitus-redacao (ID: 77388af4-3a4f-4aa1-97be-f0405c14343c)
+# Claude Coworking | Jurisperitus | Maio de 2026
+#
+# INSTRUÇÃO: substituir as duas URLs abaixo pelas URLs
+# dos projetos /tutor e /diagnostico no app.netlify.com
+# ─────────────────────────────────────────────────────
+
+# /tutor → projeto Netlify do Tutor
+/tutor        https://COLE_AQUI_URL_NETLIFY_TUTOR        301!
+
+# /diagnostico → projeto Netlify do Diagnóstico
+/diagnostico  https://COLE_AQUI_URL_NETLIFY_DIAGNOSTICO  301!
+
+# Qualquer outra rota → landing page
+/*            /index.html                                200
