@@ -612,18 +612,15 @@
         <p class="form-titulo">Acesse gratuitamente</p>
         <p class="form-sub">Receba um diagnóstico do seu nível e um e-book de introdução à linguagem jurídica.</p>
 
-        <!--
-          INSTRUÇÃO DE INTEGRAÇÃO:
-          Troque a action abaixo pelo endpoint do seu serviço de captura:
-          - Formspree:  https://formspree.io/f/SEU_ID
-          - RD Station: substitua pelo script deles
-          - Hotmart:    use o link de captura da sua lista
-          - ActiveCampaign: use a URL do formulário
-        -->
         <form id="captura-form"
-              action="https://formspree.io/f/SEU_ID_AQUI"
+              action="https://api.web3forms.com/submit"
               method="POST"
               onsubmit="enviarForm(event)">
+          <!-- Web3Forms: leads chegam no e-mail abaixo. Trocar pela chave real em web3forms.com -->
+          <input type="hidden" name="access_key" value="COLE_AQUI_CHAVE_WEB3FORMS">
+          <input type="hidden" name="subject" value="Novo lead — Jurisperitus Landing Page">
+          <input type="hidden" name="from_name" value="Jurisperitus Escola Online">
+          <input type="hidden" name="redirect" value="false">
 
           <div class="form-group">
             <label for="nome">Nome completo</label>
@@ -786,29 +783,29 @@
     e.preventDefault();
     const form = document.getElementById('captura-form');
     const nome = document.getElementById('nome').value;
+    const btn  = document.querySelector('.btn-capture');
+    btn.textContent = 'Enviando...';
+    btn.disabled = true;
+
     const data = new FormData(form);
 
-    // Se ainda está com o placeholder, simula envio local
-    if (form.action.includes('SEU_ID_AQUI')) {
-      document.getElementById('nome-confirmado').textContent = nome.split(' ')[0];
-      document.getElementById('form-conteudo').style.display = 'none';
-      document.getElementById('form-sucesso').style.display = 'block';
-      return;
-    }
-
     try {
-      const resp = await fetch(form.action, {
+      const resp = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
+        body: data
       });
-      if (resp.ok) {
+      const json = await resp.json();
+      if (json.success) {
         document.getElementById('nome-confirmado').textContent = nome.split(' ')[0];
         document.getElementById('form-conteudo').style.display = 'none';
         document.getElementById('form-sucesso').style.display = 'block';
+      } else {
+        btn.textContent = 'Quero acesso gratuito →';
+        btn.disabled = false;
+        alert('Erro ao enviar. Tente novamente.');
       }
     } catch (err) {
-      // fallback: mostra sucesso mesmo assim
+      // fallback offline: confirmar visualmente mesmo assim
       document.getElementById('nome-confirmado').textContent = nome.split(' ')[0];
       document.getElementById('form-conteudo').style.display = 'none';
       document.getElementById('form-sucesso').style.display = 'block';
