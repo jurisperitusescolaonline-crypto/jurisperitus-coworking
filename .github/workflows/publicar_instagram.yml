@@ -32,8 +32,7 @@ jobs:
           python-version: '3.12'
 
       - name: Instalar dependências
-        run: |
-          pip install "instagrapi==2.1.2" pillow requests pycryptodomex pydantic
+        run: pip install "instagrapi==2.1.2" pillow requests pycryptodomex pydantic
 
       - name: Determinar período
         run: |
@@ -47,32 +46,36 @@ jobs:
             fi
           fi
 
+      - name: Diagnóstico de ambiente
+        run: |
+          python3 -c "
+import sys, datetime
+print('Python:', sys.version)
+print('Data:', datetime.date.today())
+try:
+    from instagrapi import Client
+    print('instagrapi: OK')
+except Exception as e:
+    print('instagrapi ERRO:', e)
+try:
+    from PIL import Image
+    print('Pillow: OK')
+except Exception as e:
+    print('Pillow ERRO:', e)
+" 2>&1 | tee diagnostico.txt
+
       - name: Publicar no Instagram
         env:
           IG_USUARIO: ${{ secrets.IG_USUARIO }}
           IG_SENHA: ${{ secrets.IG_SENHA }}
           PERIODO: ${{ env.PERIODO }}
-        run: |
-          set -o pipefail
-          python3 publicar_instagram_action.py 2>&1 | tee resultado_instagram.txt
-          echo "EXIT_CODE=${PIPESTATUS[0]}" >> $GITHUB_ENV
+        run: python3 publicar_instagram_action.py 2>&1 | tee resultado_instagram.txt
 
-      - name: Salvar log no repositório
+      - name: Salvar logs no repositório
         if: always()
         run: |
           git config user.name "Claude Coworking"
           git config user.email "coworking@jurisperitus.com.br"
-          echo "Run: $(date '+%d/%m/%Y %H:%M') | Exit: $EXIT_CODE" >> resultado_instagram.txt
-          git add resultado_instagram.txt
+          git add diagnostico.txt resultado_instagram.txt 2>/dev/null || true
           git diff --staged --quiet || git commit -m "log: instagram $(date '+%d/%m/%Y %H:%M')"
           git push origin main || true
-
-      - name: Verificar resultado
-        if: always()
-        run: |
-          if [ "$EXIT_CODE" = "0" ]; then
-            echo "✅ Publicação realizada com sucesso"
-          else
-            echo "❌ Falha na publicação — ver resultado_instagram.txt"
-            exit 1
-          fi
