@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Português Inesquecível — Aprenda de um jeito que você nunca esquece</title>
+<meta name="description" content="Gramática, memorização e português jurídico para concurseiros, estudantes e profissionais. Método desenvolvido pelo Prof. Dr. Freire — Jurisperitus.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--azul:#003B83;--azul-dark:#002660;--ouro:#FFB400;--ouro-light:#ffc93c;--bg:#F7F6F2;--branco:#FFFFFF;--borda:#E2DDD6;--texto:#1A1612;--texto-sec:#5A5347;--serif:'Cormorant Garamond',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--max:1060px}
+html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--branco);color:var(--texto);overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,59,131,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,180,0,0.15);padding:0 24px}
+.nav-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--branco);text-decoration:none}
+.nav-logo span{color:var(--ouro)}
+.nav-cta{background:var(--ouro);color:var(--azul-dark);font-size:13px;font-weight:500;padding:9px 20px;border-radius:6px;text-decoration:none}
+
+.hero{min-height:100vh;background:linear-gradient(150deg,var(--azul-dark) 0%,var(--azul) 60%,#005ec4 100%);display:flex;align-items:center;padding-top:62px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:50px 50px}
+.hero-inner{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:80px 24px;max-width:780px}
+.eyebrow{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ouro);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:'';width:28px;height:1px;background:var(--ouro)}
+h1{font-family:var(--serif);font-size:clamp(40px,5.5vw,68px);font-weight:700;color:var(--branco);line-height:1.05;margin-bottom:22px}
+h1 em{font-style:italic;color:var(--ouro)}
+.hero-sub{font-size:17px;font-weight:300;color:rgba(255,255,255,0.72);line-height:1.7;max-width:540px;margin-bottom:36px}
+.info-row{display:flex;gap:24px;margin-bottom:40px;flex-wrap:wrap}
+.info-item{text-align:center}
+.info-num{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--ouro)}
+.info-txt{font-size:11px;color:rgba(255,255,255,0.55);margin-top:2px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-p{background:var(--ouro);color:var(--azul-dark);font-family:var(--sans);font-size:14px;font-weight:500;padding:15px 30px;border-radius:8px;text-decoration:none;transition:all 0.2s}
+.btn-p:hover{background:var(--ouro-light);transform:translateY(-1px)}
+.btn-s{border:1px solid rgba(255,255,255,0.3);color:var(--branco);font-size:14px;padding:14px 24px;border-radius:8px;text-decoration:none;transition:all 0.2s}
+.btn-s:hover{border-color:var(--ouro);color:var(--ouro)}
+
+.metodo{padding:70px 24px;background:var(--bg)}
+.metodo-inner{max-width:var(--max);margin:0 auto}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ouro);margin-bottom:12px}
+.sec-label::before{content:'— '}
+.sec-h{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--azul);line-height:1.15;margin-bottom:32px;max-width:580px}
+.metodo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.m-card{background:var(--branco);border:1px solid var(--borda);border-radius:12px;padding:22px 18px;text-align:center}
+.m-num{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--ouro);margin-bottom:10px}
+.m-titulo{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--azul);margin-bottom:8px}
+.m-txt{font-size:12px;color:var(--texto-sec);line-height:1.6}
+
+.produtos{padding:70px 24px;background:var(--branco)}
+.produtos-inner{max-width:var(--max);margin:0 auto}
+.prod-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.prod{border:1px solid var(--borda);border-radius:12px;padding:24px;text-decoration:none;color:inherit;transition:all 0.2s;display:block}
+.prod:hover{border-color:var(--azul);box-shadow:0 6px 24px rgba(0,59,131,0.08);transform:translateY(-2px)}
+.prod-tag{font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--ouro);margin-bottom:12px}
+.prod-nome{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--azul);margin-bottom:8px}
+.prod-desc{font-size:13px;color:var(--texto-sec);line-height:1.6;margin-bottom:14px}
+.prod-preco{font-size:15px;font-weight:500;color:var(--azul)}
+
+.cta-final{padding:70px 24px;text-align:center;background:var(--azul)}
+.cta-final h2{font-family:var(--serif);font-size:clamp(28px,4vw,40px);font-weight:700;color:var(--branco);margin-bottom:12px}
+.cta-final h2 em{font-style:italic;color:var(--ouro)}
+.cta-final p{font-size:15px;color:rgba(255,255,255,0.7);max-width:440px;margin:0 auto 28px;line-height:1.65}
+
+footer{background:var(--azul-dark);padding:28px 24px;text-align:center}
+.footer-logo{font-family:var(--serif);font-size:17px;font-weight:700;color:var(--branco);margin-bottom:6px}
+.footer-logo span{color:var(--ouro)}
+.footer-info{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.8}
+
+@media(max-width:700px){.metodo-grid{grid-template-columns:1fr 1fr}.prod-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Português <span>Inesquecível</span></a>
+    <a href="https://jurisperitusescolaonline.com.br" class="nav-cta">Ver cursos →</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Para concurseiros, estudantes e profissionais</div>
+    <h1>Aprenda português de um jeito que você <em>nunca esquece.</em></h1>
+    <p class="hero-sub">Gramática, memorização e linguagem jurídica com o método do Prof. Dr. Freire — desenvolvido para quem precisa aprender rápido e reter para sempre.</p>
+    <div class="info-row">
+      <div class="info-item"><div class="info-num">2.4k+</div><div class="info-txt">alunos formados</div></div>
+      <div class="info-item"><div class="info-num">25+</div><div class="info-txt">produtos digitais</div></div>
+      <div class="info-item"><div class="info-num">100%</div><div class="info-txt">online</div></div>
+    </div>
+    <div class="hero-btns">
+      <a href="https://jurisperitusescolaonline.com.br" class="btn-p">Começar agora →</a>
+      <a href="https://jurisperitus.com.br/diagnostico" class="btn-s">Testar meu nível</a>
+    </div>
+  </div>
+</section>
+
+<section class="metodo">
+  <div class="metodo-inner">
+    <div class="sec-label">O método</div>
+    <h2 class="sec-h">Por que o Português Inesquecível funciona</h2>
+    <div class="metodo-grid">
+      <div class="m-card"><div class="m-num">01</div><div class="m-titulo">Lógica</div><p class="m-txt">Você aprende a regra e o porquê — não decora, entende.</p></div>
+      <div class="m-card"><div class="m-num">02</div><div class="m-titulo">Exemplos</div><p class="m-txt">Sempre com exemplos do universo jurídico e de concursos.</p></div>
+      <div class="m-card"><div class="m-num">03</div><div class="m-titulo">Revisão</div><p class="m-txt">Técnica de revisão espaçada para fixar por meses.</p></div>
+      <div class="m-card"><div class="m-num">04</div><div class="m-titulo">Aplicação</div><p class="m-txt">Exercícios de bancas reais — do jeito que cai na prova.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="produtos">
+  <div class="produtos-inner">
+    <div class="sec-label">Catálogo Jurisperitus</div>
+    <h2 class="sec-h">Escolha o seu próximo nível</h2>
+    <div class="prod-grid">
+      <a href="https://jurisperitusescolaonline.com.br" class="prod">
+        <div class="prod-tag">Curso</div>
+        <div class="prod-nome">Gramática Completa</div>
+        <p class="prod-desc">Crase, concordância, regência e tudo que cai nos concursos. Do jeito que as bancas cobram.</p>
+        <div class="prod-preco">R$ 197</div>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="prod">
+        <div class="prod-tag">Curso</div>
+        <div class="prod-nome">Memorização e Mapas Mentais</div>
+        <p class="prod-desc">Técnicas para reter legislação, doutrina e jurisprudência de forma duradoura.</p>
+        <div class="prod-preco">R$ 97</div>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="prod">
+        <div class="prod-tag">E-book</div>
+        <div class="prod-nome">Planner do Concurseiro</div>
+        <p class="prod-desc">Revisão espaçada + cronograma por edital + controle de desempenho.</p>
+        <div class="prod-preco">R$ 47</div>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="prod">
+        <div class="prod-tag">E-book</div>
+        <div class="prod-nome">Cartilha OAB 1ª Fase</div>
+        <p class="prod-desc">Método, cronograma e estratégias de quem passou na primeira tentativa.</p>
+        <div class="prod-preco">R$ 47</div>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="prod">
+        <div class="prod-tag">Ferramenta IA</div>
+        <div class="prod-nome">Corretor de Redações</div>
+        <p class="prod-desc">IA que analisa sua redação e entrega nota + sugestões em segundos.</p>
+        <div class="prod-preco">R$ 19,90/correção</div>
+      </a>
+      <a href="https://jurisperitus.com.br/diagnostico" class="prod">
+        <div class="prod-tag">Grátis</div>
+        <div class="prod-nome">Diagnóstico de Nível</div>
+        <p class="prod-desc">Descubra seu nível de português e qual curso é ideal para você.</p>
+        <div class="prod-preco">Gratuito →</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <h2>O português que você aprende aqui,<br>você <em>nunca esquece.</em></h2>
+  <p>Jurisperitus Escola Online — formando profissionais que dominam a palavra.</p>
+  <a href="https://jurisperitusescolaonline.com.br" class="btn-p">Começar agora →</a>
+</section>
+
+<footer>
+  <div class="footer-logo">Juris<span>peritus</span> Escola Online</div>
+  <p class="footer-info">portuguesinesquecivel.com.br · Prof. Dr. Freire<br>CNPJ: 55.274.545/0001-88 · Brasília/DF · jurisperitusescolaonline.com.br</p>
+</footer>
+</body>
+</html>

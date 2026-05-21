@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prof. Dr. Freire — Especialista em Português Jurídico</title>
+<meta name="description" content="Prof. Dr. Freire. Licenciado em Letras e Bacharel em Direito. Fundador da Jurisperitus Escola Online. Especialista em linguagem jurídica, redação e oratória.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --azul:#003B83;--azul-dark:#002660;--azul-mid:#004fa8;
+  --ouro:#FFB400;--ouro-light:#ffc93c;
+  --bg:#F7F6F2;--branco:#FFFFFF;--borda:#E2DDD6;
+  --texto:#1A1612;--texto-sec:#5A5347;--texto-ter:#9A9287;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --max:1060px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--branco);color:var(--texto);overflow-x:hidden}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,59,131,0.97);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,180,0,0.15);padding:0 24px}
+.nav-inner{max-width:var(--max);margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px}
+.nav-logo{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--branco);text-decoration:none}
+.nav-logo span{color:var(--ouro)}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:13px;color:rgba(255,255,255,0.75);text-decoration:none;transition:color 0.2s}
+.nav-link:hover{color:var(--ouro)}
+.nav-cta{background:var(--ouro);color:var(--azul-dark);font-size:13px;font-weight:500;padding:9px 20px;border-radius:6px;text-decoration:none;transition:background 0.2s}
+.nav-cta:hover{background:var(--ouro-light)}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(150deg,var(--azul-dark) 0%,var(--azul) 60%,#005ec4 100%);display:flex;align-items:center;padding-top:62px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:50px 50px}
+.hero-inner{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:80px 24px;display:grid;grid-template-columns:1fr 380px;gap:60px;align-items:center}
+.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ouro);margin-bottom:20px;display:flex;align-items:center;gap:10px}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--ouro)}
+.hero h1{font-family:var(--serif);font-size:clamp(42px,5vw,68px);font-weight:700;color:var(--branco);line-height:1.05;letter-spacing:-0.01em;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--ouro)}
+.hero-desc{font-size:17px;font-weight:300;color:rgba(255,255,255,0.72);line-height:1.7;max-width:500px;margin-bottom:36px}
+.hero-badges{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:40px}
+.badge{font-size:12px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.18);color:rgba(255,255,255,0.85);padding:6px 14px;border-radius:20px}
+.hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+.btn-primary{background:var(--ouro);color:var(--azul-dark);font-family:var(--sans);font-size:14px;font-weight:500;padding:14px 28px;border-radius:8px;text-decoration:none;transition:all 0.2s}
+.btn-primary:hover{background:var(--ouro-light);transform:translateY(-1px)}
+.btn-ghost{border:1px solid rgba(255,255,255,0.3);color:var(--branco);font-size:14px;padding:13px 24px;border-radius:8px;text-decoration:none;transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--ouro);color:var(--ouro)}
+
+/* FOTO / CARD LATERAL */
+.hero-card{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:32px 24px;text-align:center;backdrop-filter:blur(12px)}
+.hero-avatar{width:100px;height:100px;background:rgba(255,180,0,0.15);border:2px solid var(--ouro);border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center}
+.hero-avatar-txt{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--ouro)}
+.hero-card-nome{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--branco);margin-bottom:6px}
+.hero-card-titulo{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.5;margin-bottom:20px}
+.hero-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:rgba(0,0,0,0.2);border-radius:8px;padding:12px 10px;text-align:center}
+.stat-num{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ouro)}
+.stat-txt{font-size:10px;color:rgba(255,255,255,0.5);margin-top:2px}
+
+/* SOBRE */
+.sobre{padding:80px 24px;background:var(--branco)}
+.sobre-inner{max-width:var(--max);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.sec-label{font-size:11px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--ouro);margin-bottom:12px}
+.sec-label::before{content:'— '}
+.sec-titulo{font-family:var(--serif);font-size:clamp(28px,4vw,42px);font-weight:700;color:var(--azul);line-height:1.15;margin-bottom:20px}
+.sobre-texto{font-size:15px;color:var(--texto-sec);line-height:1.8}
+.sobre-texto p{margin-bottom:16px}
+.sobre-texto strong{color:var(--azul);font-weight:500}
+.formacoes{display:flex;flex-direction:column;gap:12px;margin-top:24px}
+.formacao{display:flex;gap:14px;align-items:flex-start;padding:16px;background:var(--bg);border-radius:10px;border:1px solid var(--borda)}
+.formacao-icon{width:36px;height:36px;background:var(--azul);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.formacao-icon svg{width:18px;height:18px}
+.formacao-nome{font-size:14px;font-weight:500;color:var(--azul)}
+.formacao-inst{font-size:12px;color:var(--texto-ter)}
+
+/* CITAÇÃO */
+.citacao-sec{background:var(--azul);padding:70px 24px;position:relative;overflow:hidden}
+.citacao-sec::before{content:'"';font-family:var(--serif);font-size:300px;font-weight:700;color:rgba(255,255,255,0.04);position:absolute;top:-60px;left:20px;line-height:1}
+.citacao-inner{max-width:700px;margin:0 auto;text-align:center;position:relative;z-index:2}
+blockquote{font-family:var(--serif);font-size:clamp(22px,3vw,32px);font-style:italic;color:var(--branco);line-height:1.45;margin-bottom:20px}
+blockquote em{color:var(--ouro);font-style:normal;font-weight:600}
+cite{font-size:13px;color:rgba(255,255,255,0.5);letter-spacing:0.05em}
+
+/* CURSOS */
+.cursos{padding:80px 24px;background:var(--bg)}
+.cursos-inner{max-width:var(--max);margin:0 auto}
+.cursos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.curso-card{background:var(--branco);border:1px solid var(--borda);border-radius:12px;padding:24px;text-decoration:none;color:inherit;transition:all 0.2s;display:block}
+.curso-card:hover{border-color:var(--azul);box-shadow:0 6px 24px rgba(0,59,131,0.08);transform:translateY(-2px)}
+.curso-num{font-family:var(--serif);font-size:13px;color:var(--ouro);font-weight:600;margin-bottom:10px}
+.curso-nome{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--azul);line-height:1.2;margin-bottom:8px}
+.curso-desc{font-size:13px;color:var(--texto-sec);line-height:1.6;margin-bottom:16px}
+.curso-link{font-size:12px;font-weight:500;color:var(--azul)}
+
+/* CTA */
+.cta-final{padding:80px 24px;background:var(--branco);text-align:center;border-top:1px solid var(--borda)}
+.cta-final .sec-titulo{margin:0 auto 12px;max-width:560px}
+.cta-final p{font-size:16px;color:var(--texto-sec);max-width:460px;margin:0 auto 32px;line-height:1.65}
+
+/* FOOTER */
+footer{background:var(--azul-dark);padding:32px 24px;text-align:center}
+.footer-logo{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--branco);margin-bottom:8px}
+.footer-logo span{color:var(--ouro)}
+.footer-info{font-size:11px;color:rgba(255,255,255,0.4);line-height:1.8}
+
+@media(max-width:780px){
+  .hero-inner,.sobre-inner{grid-template-columns:1fr}
+  .hero-card{display:none}
+  .cursos-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Prof. Dr. <span>Freire</span></a>
+    <div class="nav-links">
+      <a href="#sobre" class="nav-link">Sobre</a>
+      <a href="#cursos" class="nav-link">Cursos</a>
+      <a href="https://jurisperitusescolaonline.com.br" class="nav-cta">Acessar escola →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Especialista em Português Jurídico</div>
+      <h1>A palavra certa,<br>no momento <em>certo</em>.</h1>
+      <p class="hero-desc">Professor de Letras, Bacharel em Direito e fundador da Jurisperitus Escola Online. Formando profissionais que se comunicam com precisão, autoridade e impacto.</p>
+      <div class="hero-badges">
+        <span class="badge">Licenciado em Letras</span>
+        <span class="badge">Bacharel em Direito</span>
+        <span class="badge">Brasília/DF</span>
+      </div>
+      <div class="hero-btns">
+        <a href="https://jurisperitusescolaonline.com.br" class="btn-primary">Conhecer os cursos →</a>
+        <a href="#sobre" class="btn-ghost">Sobre o Prof. Freire</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-avatar"><div class="hero-avatar-txt">F</div></div>
+      <div class="hero-card-nome">Prof. Dr. Freire</div>
+      <div class="hero-card-titulo">Professor · Especialista · Mentor<br>Jurisperitus Escola Online</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">2.4k+</div><div class="stat-txt">alunos formados</div></div>
+        <div class="stat"><div class="stat-num">25+</div><div class="stat-txt">produtos digitais</div></div>
+        <div class="stat"><div class="stat-num">6</div><div class="stat-txt">cursos completos</div></div>
+        <div class="stat"><div class="stat-num">100%</div><div class="stat-txt">online</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sobre" id="sobre">
+  <div class="sobre-inner">
+    <div>
+      <div class="sec-label">Sobre</div>
+      <h2 class="sec-titulo">Quem é o Prof. Dr. Freire</h2>
+      <div class="sobre-texto">
+        <p>Com formação dupla em <strong>Letras e Direito</strong>, o Prof. Dr. Freire dedicou sua carreira a uma convicção: o domínio da linguagem é o maior diferencial de um profissional jurídico.</p>
+        <p>Fundou a <strong>Jurisperitus Escola Online</strong> para colocar ao alcance de advogados, concurseiros e estudantes de Direito o mesmo nível de excelência linguística que separa os profissionais medianos dos excepcionais.</p>
+        <p>Seu método une o rigor da linguística com a profundidade jurídica — e com as mais avançadas técnicas de aprendizado, memorização e desenvolvimento de mentalidade.</p>
+      </div>
+    </div>
+    <div>
+      <div class="sec-label">Formação</div>
+      <div class="formacoes">
+        <div class="formacao">
+          <div class="formacao-icon">
+            <svg fill="none" stroke="#FFB400" stroke-width="2" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
+          </div>
+          <div><div class="formacao-nome">Licenciatura em Letras</div><div class="formacao-inst">Língua Portuguesa e Literatura</div></div>
+        </div>
+        <div class="formacao">
+          <div class="formacao-icon">
+            <svg fill="none" stroke="#FFB400" stroke-width="2" viewBox="0 0 24 24"><path d="M3 6l9-4 9 4v6c0 5.25-3.75 10.15-9 11.5C6.75 22.15 3 17.25 3 12V6z"/></svg>
+          </div>
+          <div><div class="formacao-nome">Bacharel em Direito</div><div class="formacao-inst">Ciências Jurídicas</div></div>
+        </div>
+        <div class="formacao">
+          <div class="formacao-icon">
+            <svg fill="none" stroke="#FFB400" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          </div>
+          <div><div class="formacao-nome">Fundador — Jurisperitus</div><div class="formacao-inst">Escola Online · Brasília/DF · CNPJ 55.274.545/0001-88</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="citacao-sec">
+  <div class="citacao-inner">
+    <blockquote>"Apenas dize <em>uma palavra</em> — e meu servo sarará."</blockquote>
+    <cite>— O Centurião Romano (Mt 8:5-13) · A convicção que não impõe obstáculos é a mais poderosa.</cite>
+  </div>
+</section>
+
+<section class="cursos" id="cursos">
+  <div class="cursos-inner">
+    <div class="sec-label">Jurisperitus Escola Online</div>
+    <h2 class="sec-titulo">Cursos e ferramentas</h2>
+    <div class="cursos-grid">
+      <a href="https://jurisperitusescolaonline.com.br" class="curso-card">
+        <div class="curso-num">01</div>
+        <div class="curso-nome">Linguagem Jurídica</div>
+        <p class="curso-desc">Vocabulário, etimologia e precisão terminológica do Direito.</p>
+        <span class="curso-link">Saiba mais →</span>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="curso-card">
+        <div class="curso-num">02</div>
+        <div class="curso-nome">Redação Jurídica</div>
+        <p class="curso-desc">Petições, pareceres e documentos com clareza e autoridade.</p>
+        <span class="curso-link">Saiba mais →</span>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="curso-card">
+        <div class="curso-num">03</div>
+        <div class="curso-nome">Oratória Jurídica</div>
+        <p class="curso-desc">Presença, dicção e persuasão para tribunais e bancas.</p>
+        <span class="curso-link">Saiba mais →</span>
+      </a>
+      <a href="https://jurisperitusescolaonline.com.br" class="curso-card">
+        <div class="curso-num">04</div>
+        <div class="curso-nome">Gramática Completa</div>
+        <p class="curso-desc">O pacote mais completo para concursos e OAB.</p>
+        <span class="curso-link">Saiba mais →</span>
+      </a>
+      <a href="https://jurisperitus.com.br/tutor" class="curso-card">
+        <div class="curso-num">05</div>
+        <div class="curso-nome">Tutor de Português IA</div>
+        <p class="curso-desc">Professor de gramática online — tire dúvidas em tempo real.</p>
+        <span class="curso-link">Acessar grátis →</span>
+      </a>
+      <a href="https://jurisperitus.com.br/diagnostico" class="curso-card">
+        <div class="curso-num">06</div>
+        <div class="curso-nome">Diagnóstico de Nível</div>
+        <p class="curso-desc">Descubra seu nível e qual curso é ideal para você.</p>
+        <span class="curso-link">Fazer grátis →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="sec-label">Comece agora</div>
+  <h2 class="sec-titulo">Domine o Português Jurídico</h2>
+  <p>Acesse a Jurisperitus Escola Online e escolha o curso que vai transformar sua comunicação profissional.</p>
+  <a href="https://jurisperitusescolaonline.com.br" class="btn-primary">Conhecer todos os cursos →</a>
+</section>
+
+<footer>
+  <div class="footer-logo">Juris<span>peritus</span> Escola Online</div>
+  <p class="footer-info">
+    Prof. Dr. Freire · professorfreire.com.br<br>
+    Jurisperitus Escola Online · CNPJ: 55.274.545/0001-88 · Brasília/DF<br>
+    jurisperitusescolaonline.com.br
+  </p>
+</footer>
+
+</body>
+</html>
