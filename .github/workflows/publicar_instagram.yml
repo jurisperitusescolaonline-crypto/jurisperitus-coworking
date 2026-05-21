@@ -1,14 +1,10 @@
-name: Jurisperitus — Publicacao Instagram
+name: Instagram Jurisperitus
 
 on:
-  schedule:
-    - cron: '0 10 * * *'
-    - cron: '0 15 * * *'
-    - cron: '0 22 * * *'
   workflow_dispatch:
     inputs:
       periodo:
-        description: 'Período de publicação'
+        description: 'Periodo de publicacao'
         required: true
         default: 'manha'
         type: choice
@@ -16,6 +12,10 @@ on:
           - manha
           - tarde
           - noite
+  schedule:
+    - cron: '0 10 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 22 * * *'
 
 jobs:
   publicar:
@@ -23,18 +23,18 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - name: Checkout repositório
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Instalar dependências
+      - name: Instalar dependencias
         run: pip install "instagrapi==2.1.2" pillow requests pycryptodomex pydantic
 
-      - name: Determinar período
+      - name: Determinar periodo
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "PERIODO=${{ github.event.inputs.periodo }}" >> $GITHUB_ENV
@@ -46,36 +46,18 @@ jobs:
             fi
           fi
 
-      - name: Diagnóstico de ambiente
-        run: |
-          python3 -c "
-import sys, datetime
-print('Python:', sys.version)
-print('Data:', datetime.date.today())
-try:
-    from instagrapi import Client
-    print('instagrapi: OK')
-except Exception as e:
-    print('instagrapi ERRO:', e)
-try:
-    from PIL import Image
-    print('Pillow: OK')
-except Exception as e:
-    print('Pillow ERRO:', e)
-" 2>&1 | tee diagnostico.txt
-
-      - name: Publicar no Instagram
+      - name: Publicar
         env:
           IG_USUARIO: ${{ secrets.IG_USUARIO }}
           IG_SENHA: ${{ secrets.IG_SENHA }}
           PERIODO: ${{ env.PERIODO }}
         run: python3 publicar_instagram_action.py 2>&1 | tee resultado_instagram.txt
 
-      - name: Salvar logs no repositório
+      - name: Salvar log
         if: always()
         run: |
           git config user.name "Claude Coworking"
           git config user.email "coworking@jurisperitus.com.br"
-          git add diagnostico.txt resultado_instagram.txt 2>/dev/null || true
+          git add resultado_instagram.txt || true
           git diff --staged --quiet || git commit -m "log: instagram $(date '+%d/%m/%Y %H:%M')"
           git push origin main || true
