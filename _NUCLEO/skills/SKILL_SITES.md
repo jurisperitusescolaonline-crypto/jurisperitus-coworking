@@ -1,60 +1,36 @@
 # SKILL: SITES JURISPERITUS
-## Versão 1.0 | Claude Coworking
+## Versão 2.0 | Claude Coworking
 
-## QUANDO USAR
-Ao atualizar, corrigir ou criar páginas em qualquer domínio da Jurisperitus.
+## MAPA DE DOMÍNIOS (atualizado 21/05/2026)
 
-## MAPA DE DOMÍNIOS
+| Domínio | Plataforma | Acesso Claude | Status |
+|---------|-----------|---------------|--------|
+| jurisperitus.com.br | GitHub Pages | ✅ git push automático | ✅ Ativo |
+| jurisperitusescolaonline.com.br | EADSimples + Cloudflare | ⚠️ Via painel EADSimples | ✅ Ativo |
+| professorfreire.com.br | Hostinger (IP 88.223.87.136) | ⚠️ Via hPanel/FTP | ⏳ A alimentar |
+| professorfreire.com | Hostinger | ⚠️ Via hPanel/FTP | ⏳ A alimentar |
+| advogadodagramatica.com.br | Hostinger | ⚠️ Via hPanel/FTP | ⏳ A alimentar |
+| portuguesinesquecivel.com.br | Hostinger | ⚠️ Via hPanel/FTP | ⏳ A alimentar |
 
-| Domínio | Infraestrutura | Deploy | Status |
-|---------|---------------|--------|--------|
-| jurisperitus.com.br | GitHub Pages | git push origin main | ✅ Ativo |
-| jurisperitusescolaonline.com.br | Cloudflare CDN | Website Builder Hostinger | ✅ Ativo |
-| professorfreire.com.br | IP 88.223.87.136 | A confirmar | ⏳ |
-| professorfreire.com | A confirmar | A confirmar | ⏳ |
-| advogadodagramatica.com.br | A confirmar | A confirmar | ⏳ |
-| portuguesinesquecivel.com.br | A confirmar | A confirmar | ⏳ |
+## ACESSO DIRETO (Claude autônomo)
+Apenas jurisperitus.com.br via git push.
+Demais sites: Claude produz os arquivos → Prof. Dr. Freire faz upload via hPanel.
 
 ## REPOSITÓRIO GITHUB
-- Usuário: jurisperitusescolaonline-crypto
-- Repo: jurisperitus-coworking
-- Branch principal: main
-- Pasta pública: /docs
-- Deploy: automático via GitHub Pages
+- Repo: jurisperitusescolaonline-crypto/jurisperitus-coworking
+- Branch: main | Pasta: /docs
+- Deploy: python3 /home/claude/jurisperitus/deploy.py
 
-## COMANDO DE DEPLOY (jurisperitus.com.br)
-```bash
-cd /home/claude/jurisperitus
-python3 deploy.py "descrição da alteração"
-```
-
-## ESTRUTURA /docs
-```
-docs/
-├── index.html          ← Landing page principal
-├── CNAME               ← jurisperitus.com.br
-├── tutor/
-│   └── index.html      ← Professor de Português IA
-└── diagnostico/
-    └── index.html      ← Quiz de nível
-```
-
-## PADRÃO VISUAL OBRIGATÓRIO
-- Azul: #003B83
-- Dourado: #FFB400
-- Branco: #FFFFFF
-- Fonte título: Cormorant Garamond
-- Fonte corpo: DM Sans
+## PADRÃO VISUAL
+- Azul: #003B83 | Dourado: #FFB400 | Branco: #FFFFFF
+- Fontes: Cormorant Garamond (título) + DM Sans (corpo)
 - Rodapé: "Jurisperitus Escola Online | CNPJ: 55.274.545/0001-88 | Brasília/DF"
 
-## WEB3FORMS (captura de leads)
+## WEB3FORMS
 - Access key: ca893d25-4ac0-43c2-b917-8a39c39040b9
-- Leads chegam por e-mail após envio do formulário
-- Endpoint: https://api.web3forms.com/submit
+- Leads → e-mail do Prof. Dr. Freire
 
-## CHECKLIST ANTES DE DEPLOYAR
-- [ ] HTML válido (sem tags abertas)
-- [ ] Cores corretas (#003B83 / #FFB400)
-- [ ] Rodapé institucional presente
-- [ ] CTA apontando para jurisperitusescolaonline.com.br ou produto Hotmart
-- [ ] Responsivo (mobile-first)
+## EADSIMPLES (jurisperitusescolaonline.com.br)
+Plataforma de cursos online. Para atualizar banners e conteúdo:
+→ Prof. Dr. Freire acessa o painel EADSimples
+→ Claude produz os arquivos/textos prontos para colar
