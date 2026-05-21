@@ -32,7 +32,8 @@ jobs:
           python-version: '3.12'
 
       - name: Instalar dependências
-        run: pip install instagrapi pillow requests
+        run: |
+          pip install "instagrapi==2.1.2" pillow requests pycryptodomex pydantic
 
       - name: Determinar período
         run: |
@@ -51,13 +52,27 @@ jobs:
           IG_USUARIO: ${{ secrets.IG_USUARIO }}
           IG_SENHA: ${{ secrets.IG_SENHA }}
           PERIODO: ${{ env.PERIODO }}
-        run: python3 publicar_instagram_action.py 2>&1 | tee resultado_instagram.txt; exit ${PIPESTATUS[0]}
+        run: |
+          set -o pipefail
+          python3 publicar_instagram_action.py 2>&1 | tee resultado_instagram.txt
+          echo "EXIT_CODE=${PIPESTATUS[0]}" >> $GITHUB_ENV
 
-      - name: Salvar resultado no repositório
+      - name: Salvar log no repositório
         if: always()
         run: |
           git config user.name "Claude Coworking"
           git config user.email "coworking@jurisperitus.com.br"
+          echo "Run: $(date '+%d/%m/%Y %H:%M') | Exit: $EXIT_CODE" >> resultado_instagram.txt
           git add resultado_instagram.txt
           git diff --staged --quiet || git commit -m "log: instagram $(date '+%d/%m/%Y %H:%M')"
           git push origin main || true
+
+      - name: Verificar resultado
+        if: always()
+        run: |
+          if [ "$EXIT_CODE" = "0" ]; then
+            echo "✅ Publicação realizada com sucesso"
+          else
+            echo "❌ Falha na publicação — ver resultado_instagram.txt"
+            exit 1
+          fi
