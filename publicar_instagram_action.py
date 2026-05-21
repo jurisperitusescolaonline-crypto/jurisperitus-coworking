@@ -2,12 +2,16 @@
 """
 PUBLICADOR INSTAGRAM — GITHUB ACTIONS
 Jurisperitus Escola Online | Claude Coworking
-Publica posts de texto+imagem no Instagram via instagrapi.
-Variáveis: IG_USUARIO, IG_SENHA, PERIODO
 """
-
-import os, sys, datetime, json, textwrap
+import os, sys, datetime, json
 from pathlib import Path
+
+LOG_FILE = "resultado_instagram.txt"
+
+def log(msg):
+    print(msg)
+    with open(LOG_FILE, "a", encoding="utf-8") as f:
+        f.write(msg + "\n")
 
 USUARIO = os.environ.get("IG_USUARIO", "")
 SENHA   = os.environ.get("IG_SENHA", "")
@@ -15,19 +19,19 @@ PERIODO = os.environ.get("PERIODO", "manha")
 hoje    = datetime.date.today()
 
 TEMAS = {
-    0: "Gramática / Português",
-    1: "Linguagem Jurídica",
-    2: "IA & Tecnologia no Direito",
-    3: "Oratória / Comunicação",
-    4: "Mentalidade / Motivação",
-    5: "Concursos / OAB / Carreira",
-    6: "Bastidores / Comunidade",
+    0: "Gramatica e Portugues",
+    1: "Linguagem Juridica",
+    2: "IA e Tecnologia no Direito",
+    3: "Oratoria e Comunicacao",
+    4: "Mentalidade e Motivacao",
+    5: "Concursos OAB e Carreira",
+    6: "Bastidores e Comunidade",
 }
 
 PRODUTOS = [
-    ("Corretor de Redações IA", "R$ 19,90"),
+    ("Corretor de Redacoes IA", "R$ 19,90"),
     ("50 Prompts para Advogados", "R$ 37"),
-    ("Cartilha OAB 1ª Fase", "R$ 47"),
+    ("Cartilha OAB 1a Fase", "R$ 47"),
     ("Analisador de TCC", "R$ 97"),
     ("Planner do Concurseiro", "R$ 47"),
     ("50 Prompts para Concurseiros", "R$ 37"),
@@ -38,159 +42,118 @@ HASHTAGS = ("#jurisperitus #linguagemjuridica #OAB #concursopublico "
             "#direito #advogado #gramatica #aprovacao #professorfreire")
 
 dia      = hoje.weekday()
-tema     = TEMAS.get(dia, "Português Jurídico")
-nomes    = ["Segunda","Terça","Quarta","Quinta","Sexta","Sábado","Domingo"]
+tema     = TEMAS.get(dia, "Portugues Juridico")
+nomes    = ["Segunda","Terca","Quarta","Quinta","Sexta","Sabado","Domingo"]
 nome_dia = nomes[dia]
 produto  = PRODUTOS[dia % len(PRODUTOS)]
 
+def gerar_legenda():
+    if PERIODO == "manha":
+        return (f"Dica de {nome_dia} - {hoje.strftime('%d/%m/%Y')}\n\n"
+                f"Tema: {tema}\n\n"
+                f"Todo profissional do Direito que domina a lingua portuguesa "
+                f"tem uma vantagem decisiva.\n\n"
+                f"Link na bio - jurisperitus.com.br\n\n{HASHTAGS}")
+    elif PERIODO == "tarde":
+        nome_prod, preco = produto
+        return (f"Produto em destaque\n\n{nome_prod}\n{preco} - acesso imediato\n\n"
+                f"Link na bio - jurisperitus.com.br\n\n{HASHTAGS}")
+    else:
+        return (f"Reflexao de {nome_dia}\n\n"
+                f"A excelencia no Direito comeca pela excelencia na palavra.\n\n"
+                f"jurisperitus.com.br\n\n{HASHTAGS}")
 
-def gerar_legenda_manha():
-    return (f"📚 DICA DE {nome_dia.upper()} — {hoje.strftime('%d/%m/%Y')}\n\n"
-            f"🎯 Tema: {tema}\n\n"
-            f"Todo profissional do Direito que domina a língua portuguesa "
-            f"tem uma vantagem decisiva — na advocacia, nos concursos e na vida.\n\n"
-            f"Salva esse post para consultar depois! 📌\n\n"
-            f"🔗 Link na bio → jurisperitus.com.br\n\n"
-            f"{HASHTAGS}")
-
-def gerar_legenda_tarde():
-    nome_prod, preco = produto
-    return (f"💼 PRODUTO EM DESTAQUE\n\n"
-            f"📌 {nome_prod}\n"
-            f"💰 {preco} — acesso imediato\n\n"
-            f"Desenvolvido para advogados, concurseiros e estudantes de Direito "
-            f"que querem dominar a linguagem jurídica com excelência.\n\n"
-            f"👉 Link na bio → jurisperitus.com.br\n\n"
-            f"{HASHTAGS} #hotmart #cursonline")
-
-def gerar_legenda_noite():
-    ancora = ('\n⚔️ "Apenas dize uma palavra — e meu servo sarará." (Mt 8,8)\n'
-              if dia == 4 else "")
-    return (f"🌙 REFLEXÃO DE {nome_dia.upper()}{ancora}\n\n"
-            f"A excelência no Direito começa pela excelência na palavra.\n\n"
-            f"Quem domina o Português domina o argumento.\n"
-            f"Quem domina o argumento domina o tribunal. ⚖️\n\n"
-            f"💬 Qual é sua maior dificuldade com a linguagem jurídica?\n\n"
-            f"🔗 jurisperitus.com.br\n\n"
-            f"{HASHTAGS} #motivacao #aprovacao")
-
-
-def gerar_imagem_card(texto_principal, periodo):
-    """Gera imagem simples com Pillow nas cores da Jurisperitus."""
+def gerar_imagem():
     try:
         from PIL import Image, ImageDraw, ImageFont
-        import textwrap
+        import textwrap as tw
 
-        W, H   = 1080, 1080
-        AZUL   = (0, 59, 131)       # #003B83
-        DOURADO = (255, 180, 0)     # #FFB400
-        BRANCO = (255, 255, 255)
+        W, H    = 1080, 1080
+        AZUL    = (0, 59, 131)
+        DOURADO = (255, 180, 0)
+        BRANCO  = (255, 255, 255)
 
         img  = Image.new("RGB", (W, H), AZUL)
         draw = ImageDraw.Draw(img)
-
-        # Borda dourada
         draw.rectangle([20, 20, W-20, H-20], outline=DOURADO, width=6)
-
-        # Topo — logo texto
         draw.rectangle([0, 0, W, 120], fill=DOURADO)
+
         try:
-            font_title = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 48)
-            font_body  = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 36)
-            font_small = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 28)
+            font_titulo = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", 52)
+            font_corpo  = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 38)
+            font_pequena = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf", 30)
         except:
-            font_title = ImageFont.load_default()
-            font_body  = font_title
-            font_small = font_title
+            font_titulo  = ImageFont.load_default()
+            font_corpo   = font_titulo
+            font_pequena = font_titulo
 
-        draw.text((W//2, 60), "JURISPERITUS", font=font_title, fill=AZUL, anchor="mm")
+        draw.text((W//2, 60), "JURISPERITUS", font=font_titulo, fill=AZUL, anchor="mm")
+        draw.text((W//2, 220), tema.upper(), font=font_corpo, fill=DOURADO, anchor="mm")
 
-        # Tema
-        draw.text((W//2, 200), tema.upper(), font=font_body, fill=DOURADO, anchor="mm")
+        linhas = tw.wrap(f"Dica de {nome_dia}", width=22)
+        y = 340
+        for linha in linhas:
+            draw.text((W//2, y), linha, font=font_corpo, fill=BRANCO, anchor="mm")
+            y += 70
 
-        # Texto principal — quebrado em linhas
-        linhas = textwrap.wrap(texto_principal, width=28)
-        y = 320
-        for linha in linhas[:8]:
-            draw.text((W//2, y), linha, font=font_body, fill=BRANCO, anchor="mm")
-            y += 60
-
-        # Data
-        draw.text((W//2, 900), hoje.strftime("%d/%m/%Y"), font=font_small, fill=DOURADO, anchor="mm")
-
-        # Rodapé
+        draw.text((W//2, 900), hoje.strftime("%d/%m/%Y"), font=font_pequena, fill=DOURADO, anchor="mm")
         draw.rectangle([0, H-80, W, H], fill=DOURADO)
-        draw.text((W//2, H-40), "jurisperitus.com.br", font=font_small, fill=AZUL, anchor="mm")
+        draw.text((W//2, H-40), "jurisperitus.com.br", font=font_pequena, fill=AZUL, anchor="mm")
 
-        path = f"/tmp/card_instagram_{periodo}.jpg"
+        path = f"/tmp/card_{PERIODO}.jpg"
         img.save(path, "JPEG", quality=95)
-        print(f"✅ Imagem gerada: {path}")
+        log(f"Imagem gerada: {path} ({os.path.getsize(path)} bytes)")
         return path
 
     except Exception as e:
-        print(f"⚠️  Erro ao gerar imagem: {e}")
+        log(f"ERRO ao gerar imagem: {e}")
         return None
 
-
-def publicar_instagram(legenda, imagem_path):
-    """Publica no Instagram via instagrapi."""
+def publicar():
     if not USUARIO or not SENHA:
-        print("ERRO: IG_USUARIO ou IG_SENHA não definidos.")
+        log("ERRO: IG_USUARIO ou IG_SENHA nao definidos.")
         sys.exit(1)
 
-    from instagrapi import Client
+    log(f"Usuario: @{USUARIO}")
+    log(f"Periodo: {PERIODO}")
 
-    print(f"Conectando como @{USUARIO}...")
+    try:
+        from instagrapi import Client
+        log("instagrapi importado OK")
+    except Exception as e:
+        log(f"ERRO importando instagrapi: {e}")
+        sys.exit(1)
+
     cl = Client()
     cl.delay_range = [2, 5]
 
-    # Tentar carregar sessão salva
-    session_file = "/tmp/ig_session.json"
-    if Path(session_file).exists():
-        try:
-            cl.load_settings(session_file)
-            cl.login(USUARIO, SENHA)
-            print("✅ Sessão restaurada")
-        except:
-            cl.login(USUARIO, SENHA)
-            print("✅ Login realizado")
-    else:
+    try:
+        log("Tentando login...")
         cl.login(USUARIO, SENHA)
-        print("✅ Login realizado")
+        log("Login realizado com sucesso")
+    except Exception as e:
+        log(f"ERRO no login: {type(e).__name__}: {e}")
+        sys.exit(1)
 
-    cl.dump_settings(session_file)
+    legenda = gerar_legenda()
+    log(f"Legenda gerada ({len(legenda)} chars)")
 
-    if imagem_path and Path(imagem_path).exists():
-        media = cl.photo_upload(imagem_path, legenda)
-        print(f"✅ POST PUBLICADO!")
-        print(f"   Media ID: {media.pk}")
-        print(f"   Ver em: https://instagram.com/p/{media.code}/")
-        return True
-    else:
-        print("❌ Imagem não encontrada — necessária para publicar no feed.")
-        return False
+    imagem = gerar_imagem()
+    if not imagem:
+        log("ERRO: sem imagem para publicar")
+        sys.exit(1)
 
+    try:
+        log("Publicando foto...")
+        media = cl.photo_upload(imagem, legenda)
+        log(f"PUBLICADO COM SUCESSO!")
+        log(f"Media ID: {media.pk}")
+        log(f"URL: https://instagram.com/p/{media.code}/")
+    except Exception as e:
+        log(f"ERRO ao publicar: {type(e).__name__}: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
-    print(f"=== Jurisperitus Instagram Action ===")
-    print(f"Data: {hoje.strftime('%d/%m/%Y')} ({nome_dia})")
-    print(f"Período: {PERIODO} | Tema: {tema}")
-    print("-" * 40)
-
-    if PERIODO == "manha":
-        legenda       = gerar_legenda_manha()
-        texto_card    = f"DICA DE {nome_dia.upper()}\n\n{tema}"
-    elif PERIODO == "tarde":
-        legenda       = gerar_legenda_tarde()
-        texto_card    = f"{produto[0]}\n\n{produto[1]}"
-    else:
-        legenda       = gerar_legenda_noite()
-        texto_card    = f"REFLEXÃO DE\n{nome_dia.upper()}"
-
-    imagem = gerar_imagem_card(texto_card, PERIODO)
-    print(f"Legenda gerada ({len(legenda)} chars)")
-    print("-" * 40)
-
-    sucesso = publicar_instagram(legenda, imagem)
-    if not sucesso:
-        sys.exit(1)
+    log(f"=== Instagram Action {hoje.strftime('%d/%m/%Y')} ({nome_dia}) ===")
+    publicar()
+    log("=== FIM ===")
