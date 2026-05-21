@@ -1,0 +1,72 @@
+name: Jurisperitus — Publicação Facebook
+
+on:
+  schedule:
+    # Horários em UTC (Brasil = UTC-3)
+    # 07h00 BRT = 10h00 UTC
+    - cron: '0 10 * * *'
+    # 12h00 BRT = 15h00 UTC
+    - cron: '0 15 * * *'
+    # 19h00 BRT = 22h00 UTC
+    - cron: '0 22 * * *'
+  # Permite executar manualmente pelo GitHub
+  workflow_dispatch:
+    inputs:
+      periodo:
+        description: 'Período de publicação'
+        required: true
+        default: 'manha'
+        type: choice
+        options:
+          - manha
+          - tarde
+          - noite
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install requests
+
+      - name: Determinar período
+        id: periodo
+        run: |
+          # Se acionado manualmente, usa o input
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "PERIODO=${{ github.event.inputs.periodo }}" >> $GITHUB_ENV
+          else
+            # Determina pelo horário UTC atual
+            HORA=$(date -u +%H)
+            if [ "$HORA" = "10" ]; then
+              echo "PERIODO=manha" >> $GITHUB_ENV
+            elif [ "$HORA" = "15" ]; then
+              echo "PERIODO=tarde" >> $GITHUB_ENV
+            else
+              echo "PERIODO=noite" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Publicar no Facebook
+        env:
+          FB_TOKEN: ${{ secrets.FB_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          PERIODO: ${{ env.PERIODO }}
+        run: |
+          echo "Publicando período: $PERIODO"
+          python3 publicar_facebook_action.py
+
+      - name: Registrar resultado
+        if: always()
+        run: |
+          echo "Publicação $PERIODO concluída em $(date -u '+%d/%m/%Y %H:%M UTC')"
