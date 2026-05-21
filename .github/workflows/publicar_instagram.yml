@@ -2,9 +2,9 @@ name: Jurisperitus — Publicação Instagram
 
 on:
   schedule:
-    - cron: '0 10 * * *'   # 07h00 BRT
-    - cron: '0 15 * * *'   # 12h00 BRT
-    - cron: '0 22 * * *'   # 19h00 BRT
+    - cron: '0 10 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 22 * * *'
   workflow_dispatch:
     inputs:
       periodo:
@@ -51,8 +51,13 @@ jobs:
           IG_USUARIO: ${{ secrets.IG_USUARIO }}
           IG_SENHA: ${{ secrets.IG_SENHA }}
           PERIODO: ${{ env.PERIODO }}
-        run: python3 publicar_instagram_action.py
+        run: python3 publicar_instagram_action.py 2>&1 | tee resultado_instagram.txt; exit ${PIPESTATUS[0]}
 
-      - name: Registrar resultado
+      - name: Salvar resultado no repositório
         if: always()
-        run: echo "Instagram ${{ env.PERIODO }} — $(date '+%d/%m/%Y %H:%M UTC')"
+        run: |
+          git config user.name "Claude Coworking"
+          git config user.email "coworking@jurisperitus.com.br"
+          git add resultado_instagram.txt
+          git diff --staged --quiet || git commit -m "log: instagram $(date '+%d/%m/%Y %H:%M')"
+          git push origin main || true
