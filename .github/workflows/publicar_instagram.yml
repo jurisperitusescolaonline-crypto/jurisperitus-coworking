@@ -1,0 +1,58 @@
+name: Jurisperitus — Publicação Instagram
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 07h00 BRT
+    - cron: '0 15 * * *'   # 12h00 BRT
+    - cron: '0 22 * * *'   # 19h00 BRT
+  workflow_dispatch:
+    inputs:
+      periodo:
+        description: 'Período de publicação'
+        required: true
+        default: 'manha'
+        type: choice
+        options:
+          - manha
+          - tarde
+          - noite
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repositório
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: pip install instagrapi pillow requests
+
+      - name: Determinar período
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "PERIODO=${{ github.event.inputs.periodo }}" >> $GITHUB_ENV
+          else
+            HORA=$(date -u +%H)
+            if [ "$HORA" = "10" ]; then echo "PERIODO=manha" >> $GITHUB_ENV
+            elif [ "$HORA" = "15" ]; then echo "PERIODO=tarde" >> $GITHUB_ENV
+            else echo "PERIODO=noite" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Publicar no Instagram
+        env:
+          IG_USUARIO: ${{ secrets.IG_USUARIO }}
+          IG_SENHA: ${{ secrets.IG_SENHA }}
+          PERIODO: ${{ env.PERIODO }}
+        run: python3 publicar_instagram_action.py
+
+      - name: Registrar resultado
+        if: always()
+        run: echo "Instagram ${{ env.PERIODO }} — $(date '+%d/%m/%Y %H:%M UTC')"
