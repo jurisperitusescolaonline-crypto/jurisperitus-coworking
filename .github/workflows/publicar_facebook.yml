@@ -2,14 +2,9 @@ name: Jurisperitus — Publicação Facebook
 
 on:
   schedule:
-    # Horários em UTC (Brasil = UTC-3)
-    # 07h00 BRT = 10h00 UTC
     - cron: '0 10 * * *'
-    # 12h00 BRT = 15h00 UTC
     - cron: '0 15 * * *'
-    # 19h00 BRT = 22h00 UTC
     - cron: '0 22 * * *'
-  # Permite executar manualmente pelo GitHub
   workflow_dispatch:
     inputs:
       periodo:
@@ -40,20 +35,14 @@ jobs:
         run: pip install requests
 
       - name: Determinar período
-        id: periodo
         run: |
-          # Se acionado manualmente, usa o input
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             echo "PERIODO=${{ github.event.inputs.periodo }}" >> $GITHUB_ENV
           else
-            # Determina pelo horário UTC atual
             HORA=$(date -u +%H)
-            if [ "$HORA" = "10" ]; then
-              echo "PERIODO=manha" >> $GITHUB_ENV
-            elif [ "$HORA" = "15" ]; then
-              echo "PERIODO=tarde" >> $GITHUB_ENV
-            else
-              echo "PERIODO=noite" >> $GITHUB_ENV
+            if [ "$HORA" = "10" ]; then echo "PERIODO=manha" >> $GITHUB_ENV
+            elif [ "$HORA" = "15" ]; then echo "PERIODO=tarde" >> $GITHUB_ENV
+            else echo "PERIODO=noite" >> $GITHUB_ENV
             fi
           fi
 
@@ -62,11 +51,13 @@ jobs:
           FB_TOKEN: ${{ secrets.FB_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           PERIODO: ${{ env.PERIODO }}
-        run: |
-          echo "Publicando período: $PERIODO"
-          python3 publicar_facebook_action.py
+        run: python3 publicar_facebook_action.py 2>&1 | tee resultado_publicacao.txt
 
-      - name: Registrar resultado
+      - name: Salvar resultado no repositório
         if: always()
         run: |
-          echo "Publicação $PERIODO concluída em $(date -u '+%d/%m/%Y %H:%M UTC')"
+          git config user.name "Claude Coworking"
+          git config user.email "coworking@jurisperitus.com.br"
+          git add resultado_publicacao.txt
+          git diff --staged --quiet || git commit -m "log: resultado publicação $(date '+%d/%m/%Y %H:%M')"
+          git push origin main || true
