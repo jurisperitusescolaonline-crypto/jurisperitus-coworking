@@ -1,0 +1,66 @@
+name: Jurisperitus — Banners Diarios
+
+on:
+  schedule:
+    - cron: '0 10 * * *'   # 07h00 BRT
+    - cron: '0 15 * * *'   # 12h00 BRT
+    - cron: '0 22 * * *'   # 19h00 BRT
+  workflow_dispatch:
+    inputs:
+      periodo:
+        description: 'Periodo'
+        required: true
+        default: 'manha'
+        type: choice
+        options:
+          - manha
+          - tarde
+          - noite
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip install requests pillow
+
+      - name: Determinar periodo
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "PERIODO=${{ github.event.inputs.periodo }}" >> $GITHUB_ENV
+          else
+            HORA=$(date -u +%H)
+            if [ "$HORA" = "10" ]; then echo "PERIODO=manha" >> $GITHUB_ENV
+            elif [ "$HORA" = "15" ]; then echo "PERIODO=tarde" >> $GITHUB_ENV
+            else echo "PERIODO=noite" >> $GITHUB_ENV
+            fi
+          fi
+
+      - name: Publicar banner
+        env:
+          FB_TOKEN: ${{ secrets.FB_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          PERIODO: ${{ env.PERIODO }}
+        run: python3 publicar_banner.py 2>&1 | tee resultado_banners.txt
+
+      - name: Salvar log
+        if: always()
+        run: |
+          git config user.name "Claude Coworking"
+          git config user.email "coworking@jurisperitus.com.br"
+          git add resultado_banners.txt || true
+          git diff --staged --quiet || git commit -m "log: banner $(date '+%d/%m/%Y %H:%M')"
+          git push origin main || true
